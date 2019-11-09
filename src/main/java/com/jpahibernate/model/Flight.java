@@ -8,11 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="flight")
+@NamedQuery(name="findFlights", query="SELECT f from Flight f")
+@NamedNativeQuery(
+		name="getFlights",
+		query="SELECT * FROM Flight where flightid=:id ORDER BY flightid",
+		resultClass=Flight.class
+		)
 public class Flight {
 
 	@Id
@@ -24,6 +32,12 @@ public class Flight {
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name="flightid")
 	private List<Booking> bookinglist = new ArrayList<Booking>();
+
+	@Override
+	public String toString() {
+		return "Flight [flightid=" + flightid + ", airline=" + airline + ", source=" + source + ", destination="
+				+ destination + "]";
+	}
 
 	public Flight() {
 		super();

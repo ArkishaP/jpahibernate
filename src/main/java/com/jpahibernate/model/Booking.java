@@ -9,12 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="Booking")
+@NamedQuery(name="bookingInfo", query="SELECT f.airline, b.name FROM Flight f, Booking b WHERE f=b.flight")
 public class Booking {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -28,6 +30,12 @@ public class Booking {
 	@ManyToOne
 	@JoinColumn(name="flightid")
 	private Flight flight;
+	
+	@Override
+	public String toString() {
+		return "Booking [bookingid=" + bookingid + ", name=" + name + ", age=" + age + ", bookingdate=" + bookingdate
+				+ "]";
+	}
 	public Booking() {
 		super();
 	}
